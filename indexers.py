@@ -6,6 +6,7 @@ from java.io import File
 from org.apache.lucene import analysis, document, index, queryparser, search, store, util
 from lupyne import engine
 import csv
+from lupyne.engine import Query
 
 lucene.initVM()
 
@@ -48,10 +49,15 @@ isearcher = search.IndexSearcher(ireader)
 # parser = queryparser.classic.QueryParser(util.Version.LUCENE_CURRENT, "name", analyzer)
 # query = parser.parse("赵钱孙李周吴郑王")
 # query = search.TermQuery(index.Term('name', "search.TermQuery(index.Term('text', 'lucene'))"))
-query= search.TermQuery(index.Term('sex', '女'))
+# query= search.TermQuery(index.Term('sex', '女'))
+
+query = search.PhraseQuery()
+query.add(index.Term('name', '赵'))
+
 hits = isearcher.search(query, None, 1000).scoreDocs
 # print hits.doc
 # Iterate through the results:
+
 for hit in hits:
     hitDoc = isearcher.doc(hit.doc)
     if hitDoc['office'] :
