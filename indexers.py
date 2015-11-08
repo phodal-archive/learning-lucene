@@ -26,10 +26,18 @@ with open('data/xiaoyou.csv') as csvfile:
         name = row['姓名']
         sex = row['性别']
         year = row['毕业年份']
+        phone = row['联系电话']
+        tec = row['QQ/微信']
+        email = row['Email']
+        office = row['工作单位']
         doc = document.Document()
         doc.add(document.Field("name", name, document.TextField.TYPE_STORED))
         doc.add(document.Field("sex", sex, document.TextField.TYPE_STORED))
         doc.add(document.Field("year", year, document.TextField.TYPE_STORED))
+        doc.add(document.Field("phone", phone, document.TextField.TYPE_STORED))
+        doc.add(document.Field("tec", tec, document.TextField.TYPE_STORED))
+        doc.add(document.Field("email", email, document.TextField.TYPE_STORED))
+        doc.add(document.Field("office", office, document.TextField.TYPE_STORED))
         iwriter.addDocument(doc)
 iwriter.close()
 
@@ -38,12 +46,13 @@ ireader = index.IndexReader.open(directory)
 isearcher = search.IndexSearcher(ireader)
 # Parse a simple query that searches for "text":
 parser = queryparser.classic.QueryParser(util.Version.LUCENE_CURRENT, "name", analyzer)
-query = parser.parse("张")
+query = parser.parse("赵钱孙李周吴郑王")
 hits = isearcher.search(query, None, 1000).scoreDocs
-print len(hits)
+# print hits.doc
 # Iterate through the results:
-# for hit in hits:
-#     hitDoc = isearcher.doc(hit.doc)
-#     assert hitDoc['fieldname'] == text
+for hit in hits:
+    hitDoc = isearcher.doc(hit.doc)
+    if hitDoc['office'] :
+        print hitDoc['name'], hitDoc['sex'], hitDoc['tec'], hitDoc['email']
 ireader.close()
 directory.close()
