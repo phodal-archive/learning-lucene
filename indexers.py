@@ -45,8 +45,10 @@ iwriter.close()
 ireader = index.IndexReader.open(directory)
 isearcher = search.IndexSearcher(ireader)
 # Parse a simple query that searches for "text":
-parser = queryparser.classic.QueryParser(util.Version.LUCENE_CURRENT, "name", analyzer)
-query = parser.parse("赵钱孙李周吴郑王")
+# parser = queryparser.classic.QueryParser(util.Version.LUCENE_CURRENT, "name", analyzer)
+# query = parser.parse("赵钱孙李周吴郑王")
+# query = search.TermQuery(index.Term('name', "search.TermQuery(index.Term('text', 'lucene'))"))
+query= search.TermQuery(index.Term('sex', '女'))
 hits = isearcher.search(query, None, 1000).scoreDocs
 # print hits.doc
 # Iterate through the results:
