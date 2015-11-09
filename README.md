@@ -11,3 +11,7 @@ Setup
 2.Install Deps
 
     pip install requirements.txt
+    
+3.Run
+    
+    flask --app=server --debug run
