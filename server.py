@@ -1,6 +1,9 @@
+#!/usr/bin/python2.6
+# -*- coding: utf-8 -*-
+
 from flask import Flask
 import flask
-import indexers
+from indexers import search
 
 PER_PAGE = 30
 DEBUG = True
@@ -10,12 +13,7 @@ app = Flask(__name__)
 app.config.from_object(__name__)
 app.config.from_envvar('MINITWIT_SETTINGS', silent=True)
 
-#
-# @app.cli.command('create_index')
-# def create_index():
-#     indexers.create_index()
-
-
 @app.route('/')
 def home():
+    search()
     return flask.jsonify({"led": "true"})
