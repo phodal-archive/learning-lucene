@@ -43,18 +43,15 @@ def create_index():
 # create_index()
 
 # Now search the index:
-ireader = index.IndexReader.open(directory)
-isearcher = search.IndexSearcher(ireader)
-# Parse a simple query that searches for "text":
-parser = queryparser.classic.QueryParser(util.Version.LUCENE_CURRENT, "tone", analyzer)
-query = parser.parse("电子城街道")
+def search():
+    ireader = index.IndexReader.open(directory)
+    isearcher = search.IndexSearcher(ireader)
 
-hits = isearcher.search(query, None, 1000).scoreDocs
-# print hits.doc
-# Iterate through the results:
+    parser = queryparser.classic.QueryParser(util.Version.LUCENE_CURRENT, "tone", analyzer)
+    query = parser.parse("电子城街道")
 
-for hit in hits:
-    hitDoc = isearcher.doc(hit.doc)
-    print hitDoc['province'], hitDoc['city'], hitDoc['zone'], hitDoc['tone']
-ireader.close()
+    hits = isearcher.search(query, None, 1000).scoreDocs
+
+    ireader.close()
+    return hits
 directory.close()
